@@ -1,0 +1,28 @@
+.AppHeader {
+  padding: 0 15px;
+  height: 50px;
+}
+
+.AppBody {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.AppExplorer {
+  flex: 0 0 250px;
+  padding: 15px;
+  border-right: 1px solid #8c8c8c;
+}
+
+.AppRunner {
+  flex: 0 0 350px;
+  padding: 15px;
+  border-right: 1px solid #8c8c8c;
+}
+
+.AppOutput {
+  padding: 15px;
+  flex: 1 1 0;
+}
