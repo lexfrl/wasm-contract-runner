@@ -13,17 +13,17 @@ export default class Contract {
   }
 
   @action storeSet (key, value) {
-    this.store.set(bytesToHex(key), value);
+    this.store.set(bytesToHex(key), bytesToHex(value));
   }
 
   storeGet (key) {
-    return this.store.get(bytesToHex(key));
+    return hexToBytes(this.store.get(bytesToHex(key)));
   }
 
 }
 
 function bytesToHex (bytes) {
-  return bytes.map(b => '00' + b.toString(16).slice(-2)).join('');
+  return bytes.map(b => ('00' + b.toString(16)).slice(-2)).join('');
 }
 
 function hexToBytes (hex) {

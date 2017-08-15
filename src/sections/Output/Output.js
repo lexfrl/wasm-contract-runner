@@ -26,13 +26,10 @@ export default class Output extends React.Component {
     if (!selectedContract) {
       return <div />;
     }
-    const store = selectedContract.store;
-
-    return <div>{ JSON.stringify(store.toJS()) }</div>;
-    // return (
-    //   <div>
-    //     <KeyValue keyName='Key' valueName='Value' data={ store } />
-    //   </div>
-    // );
+    return (
+      <div>
+        <KeyValue keyName='Key' valueName='Value' data={ selectedContract.store } />
+      </div>
+    );
   }
 }

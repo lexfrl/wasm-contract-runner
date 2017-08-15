@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Table } from 'semantic-ui-react';
+import { observer } from 'mobx-react';
 
+@observer
 export default class KeyValue extends React.Component {
   static propTypes = {
     keyName: PropTypes.string,
@@ -14,26 +16,26 @@ export default class KeyValue extends React.Component {
   };
 
   render () {
-    const rows = Array.from(this.props.data.entries()).map((key, value) =>
-      <Table.Row key={key}>
+    const rows = Array.from(this.props.data).map(([key, value]) =>
+      <Table.Row key={ key }>
         <Table.Cell>
-          {key}
+          { key }
         </Table.Cell>
         <Table.Cell>
-          {value}
+          { value }
         </Table.Cell>
       </Table.Row>
     );
 
     return (
-      <Table celled striped>
+      <Table size='small' celled fixed singleLine>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell colSpan='3'>
-              {this.props.keyName}
+            <Table.HeaderCell width={ 1 }>
+              { this.props.keyName }
             </Table.HeaderCell>
-            <Table.HeaderCell colSpan='3'>
-              {this.props.valueName}
+            <Table.HeaderCell width={ 1 }>
+              { this.props.valueName }
             </Table.HeaderCell>
           </Table.Row>
         </Table.Header>
