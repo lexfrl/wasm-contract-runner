@@ -77,7 +77,7 @@ export default class Explorer extends React.Component {
         >
           <Header as='h3'>Uploaded contracts</Header>
           <Divider />
-          <Button onClick={ () => this.dropzoneRef.open() } fluid color='gray'>
+          <Button onClick={ () => this.dropzoneRef.open() } fluid color='grey'>
             <Icon name='plus' /> Upload WASM files
           </Button>
 

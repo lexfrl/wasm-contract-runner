@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import './Runner.css';
 import { observer } from 'mobx-react';
 
-import { Header, Form, Button, Divider, Input } from 'semantic-ui-react';
+import { Header, Form, Accordion } from 'semantic-ui-react';
 
-import ContractsStore from '../../common/ContractsStore';
+import Contract from '../../common/Contract';
 import runWasm from '../../common/runWasm';
 import parseArgs from '../../common/parseArgs';
 
@@ -29,43 +29,28 @@ export default class Runner extends React.Component {
   };
 
   run = () => {
-    runWasm(this.context.store.selectedContract, parseArgs(this.state));
+    runWasm(this.props.contract, parseArgs(this.state));
   };
 
-  static contextTypes = {
-    store: PropTypes.instanceOf(ContractsStore)
+  static propTypes = {
+    contract: PropTypes.instanceOf(Contract)
   };
 
   render () {
-    const { selectedContract } = this.context.store;
-
-    if (!selectedContract) {
-      return <div />;
-    }
-
     return (
-      <div className='Runner'>
-        <Form>
-          <Form.Input
-            name='address'
-            label='Address'
-            onChange={ this.handleChange }
-          />
-          <Form.Input
-            name='sender'
-            label='Sender'
-            onChange={ this.handleChange }
-          />
-          <Form.Input
-            name='origin'
-            label='Origin'
-            onChange={ this.handleChange }
-          />
-          <Form.Button color='orange' fluid onClick={ this.run }>
-            Run
-          </Form.Button>
-        </Form>
-      </div>
+      <Form>
+        <Form.Input
+          name='address'
+          label='Address'
+          onChange={ this.handleChange }
+        />
+        <Form.Input name='sender' label='Sender' onChange={ this.handleChange } />
+        <Form.Input name='origin' label='Origin' onChange={ this.handleChange } />
+        <Form.Input name='origin' label='Gas' onChange={ this.handleChange } />
+        <Form.Button color='orange' fluid onClick={ () => this.run() }>
+          Call
+        </Form.Button>
+      </Form>
     );
   }
 }

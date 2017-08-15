@@ -5,8 +5,8 @@
 
 .AppBody {
   position: absolute;
-  height: 100%;
-  width: calc(100% - 50px);
+  height: calc(100% - 50px);
+  width: 100%;
   display: flex;
 }
 
@@ -16,13 +16,14 @@
   border-right: 1px solid #8c8c8c;
 }
 
-.AppRunner {
+.AppTools {
   flex: 0 0 350px;
   padding: 15px;
-  border-right: 1px solid #8c8c8c;
 }
 
-.AppOutput {
+.AppSource {
+  display: flex;
   padding: 15px;
   flex: 1 1 0;
+  border-right: 1px solid #8c8c8c;
 }

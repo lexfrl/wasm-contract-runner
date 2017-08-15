@@ -5,7 +5,7 @@ import './App.css';
 import { Header } from 'semantic-ui-react';
 
 import Explorer from './sections/Explorer';
-import Runner from './sections/Runner';
+import Tools from './sections/Tools';
 import Output from './sections/Output';
 
 import ContractsStore from './common/ContractsStore';
@@ -45,11 +45,11 @@ class App extends React.Component {
           <div className='AppExplorer'>
             <Explorer />
           </div>
-          <div className='AppRunner'>
-            <Runner />
-          </div>
-          <div className='AppOutput'>
+          <div className='AppSource'>
             <Output />
+          </div>
+          <div className='AppTools'>
+            <Tools />
           </div>
         </div>
       </div>

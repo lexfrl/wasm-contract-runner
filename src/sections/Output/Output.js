@@ -3,14 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 
-import { Icon, Table } from 'semantic-ui-react';
+import { Header } from 'semantic-ui-react';
 
 import ContractsStore from '../../common/ContractsStore';
 import KeyValue from '../../components/KeyValue';
 
 @observer
 export default class Output extends React.Component {
-
   store = this.context.store;
   static propTypes = {
     result: 'any'
@@ -24,12 +23,10 @@ export default class Output extends React.Component {
     const selectedContract = this.context.store.selectedContract;
 
     if (!selectedContract) {
-      return <div />;
+      return <div style={ { margin: 'auto' } }>
+        <Header as='h2'>Select a contract</Header>
+      </div>;
     }
-    return (
-      <div>
-        <KeyValue keyName='Key' valueName='Value' data={ selectedContract.store } />
-      </div>
-    );
+    return <div />;
   }
 }

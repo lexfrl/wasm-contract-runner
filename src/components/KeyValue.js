@@ -18,7 +18,7 @@ export default class KeyValue extends React.Component {
   render () {
     const rows = Array.from(this.props.data).map(([key, value]) =>
       <Table.Row key={ key }>
-        <Table.Cell>
+        <Table.Cell >
           { key }
         </Table.Cell>
         <Table.Cell>
