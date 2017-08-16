@@ -6,7 +6,7 @@ import { Header } from 'semantic-ui-react';
 
 import Explorer from './sections/Explorer';
 import Tools from './sections/Tools';
-import Output from './sections/Output';
+import Editor from './sections/Editor';
 
 import ContractsStore from './common/ContractsStore';
 
@@ -46,7 +46,7 @@ class App extends React.Component {
             <Explorer />
           </div>
           <div className='AppSource'>
-            <Output />
+            <Editor />
           </div>
           <div className='AppTools'>
             <Tools />

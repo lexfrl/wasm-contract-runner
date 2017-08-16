@@ -13,6 +13,7 @@ export default class Contract {
   }
 
   @action storeSet (key, value) {
+    console.log(key, value);
     this.store.set(bytesToHex(key), bytesToHex(value));
   }
 

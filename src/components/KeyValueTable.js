@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Icon, Table } from 'semantic-ui-react';
+import { Table } from 'semantic-ui-react';
 import { observer } from 'mobx-react';
 
 @observer
-export default class KeyValue extends React.Component {
+export default class KeyValueTable extends React.Component {
   static propTypes = {
     keyName: PropTypes.string,
     valueName: PropTypes.string,

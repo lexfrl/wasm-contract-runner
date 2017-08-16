@@ -4,16 +4,19 @@
   "private": true,
   "dependencies": {
     "babel-runtime": "6.23.0",
+    "jsbn": "^1.1.0",
     "mobx": "^3.2.2",
     "mobx-react": "^4.2.2",
     "react": "^15.6.1",
+    "react-ace": "^5.1.2",
     "react-dev-utils": "^3.0.2",
     "react-dom": "^15.6.1",
     "react-dropzone": "^3.13.4",
     "react-primitives": "^0.4.3",
     "semantic-ui": "^2.2.11",
     "semantic-ui-css": "^2.2.11",
-    "semantic-ui-react": "^0.71.3"
+    "semantic-ui-react": "^0.71.3",
+    "wasmparser": "^0.4.10"
   },
   "devDependencies": {
     "autoprefixer": "7.1.1",
