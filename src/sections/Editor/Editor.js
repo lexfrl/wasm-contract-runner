@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import AceEditor from 'react-ace';
 import 'brace/theme/github';
+import 'brace/ext/searchbox';
 import { BinaryReader, WasmDisassembler } from 'wasmparser';
 
 import { Header } from 'semantic-ui-react';
