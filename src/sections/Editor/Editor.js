@@ -1,10 +1,12 @@
 import './Editor.css';
+
 import React from 'react';
 import PropTypes from 'prop-types';
 import { observer } from 'mobx-react';
 import AceEditor from 'react-ace';
 import 'brace/theme/github';
 import 'brace/ext/searchbox';
+
 import { BinaryReader, WasmDisassembler } from 'wasmparser';
 
 import { Header } from 'semantic-ui-react';
@@ -49,6 +51,7 @@ export default class Editor extends React.Component {
         mode='text'
         theme='github'
         name='wast'
+        showPrintMargin={ false }
         editorProps={ { $blockScrolling: true } }
         value={ wast }
       />

@@ -7,13 +7,13 @@ import { Header } from 'semantic-ui-react';
 import Explorer from './sections/Explorer';
 import Tools from './sections/Tools';
 import Editor from './sections/Editor';
+import Console from './sections/Console';
 
 import ContractsStore from './common/ContractsStore';
 
 import parseArgs from './common/parseArgs';
 
 class App extends React.Component {
-
   static childContextTypes = {
     store: PropTypes.instanceOf(ContractsStore)
   };
@@ -42,13 +42,19 @@ class App extends React.Component {
           <Header as='h1'>WASM Contract Runner</Header>
         </div>
         <div className='AppBody'>
-          <div className='AppExplorer'>
+          <div className='AppLeft'>
             <Explorer />
           </div>
-          <div className='AppSource'>
-            <Editor />
+
+          <div className='AppCenter'>
+            <div className='AppCenterTop'>
+              <Editor />
+            </div>
+            <div className='AppCenterBottom'>
+              <Console />
+            </div>
           </div>
-          <div className='AppTools'>
+          <div className='AppRight'>
             <Tools />
           </div>
         </div>

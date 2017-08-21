@@ -6,6 +6,7 @@ class ContractsStore {
   @observable contracts = new Map();
   @observable loading = true;
   @observable selected = '';
+  @observable logEntries = [];
 
   constructor () {
     this.loadContracts();
@@ -17,6 +18,10 @@ class ContractsStore {
 
   @action selectContract (name) {
     this.selected = name;
+  }
+
+  @action log = (message) => {
+    this.logEntries.push(message);
   }
 
   async loadContracts () {

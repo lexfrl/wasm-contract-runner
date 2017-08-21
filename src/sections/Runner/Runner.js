@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { Form, Input } from 'semantic-ui-react';
 
 import Contract from '../../common/Contract';
+import ContractsStore from '../../common/ContractsStore';
 import runWasm from '../../common/runWasm';
 import parseArgs from '../../common/parseArgs';
 
@@ -32,11 +33,15 @@ export default class Runner extends React.Component {
   };
 
   run = () => {
-    runWasm(this.props.contract, parseArgs(this.state));
+    runWasm(this.props.contract, parseArgs(this.state), this.context.store.log);
   };
 
   static propTypes = {
     contract: PropTypes.instanceOf(Contract)
+  };
+
+  static contextTypes = {
+    store: PropTypes.instanceOf(ContractsStore)
   };
 
   render () {

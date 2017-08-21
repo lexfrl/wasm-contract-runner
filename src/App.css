@@ -10,22 +10,34 @@
   display: flex;
 }
 
-.AppExplorer {
+.AppLeft {
   flex: 0 0 250px;
   padding: 15px;
   border-right: 1px solid #8c8c8c;
 }
 
-.AppTools {
+.AppRight {
   flex: 0 0 350px;
   padding: 15px;
 }
 
-.AppSource {
+.AppCenter {
   display: flex;
   width: 100%;
   height: 100%;
   padding: 15px;
   flex: 1 1 0;
+  flex-direction: column;
   border-right: 1px solid #8c8c8c;
+}
+
+.AppCenterTop {
+  flex: 1 1 0;
+  padding-bottom: 15px;
+}
+
+.AppCenterBottom {
+  flex: 0 0 350px;
+  padding-top: 15px;
+  border-top: 1px solid #8c8c8c;
 }
