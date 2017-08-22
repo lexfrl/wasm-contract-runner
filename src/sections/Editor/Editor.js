@@ -52,7 +52,7 @@ export default class Editor extends React.Component {
         theme='github'
         name='wast'
         showPrintMargin={ false }
-        editorProps={ { $blockScrolling: true } }
+        editorProps={ { $blockScrolling: Infinity } }
         value={ wast }
       />
     );

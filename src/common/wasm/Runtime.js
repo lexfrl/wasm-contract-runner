@@ -1,14 +1,22 @@
 export default class Runtime {
+  log = () => {};
   storage = null;
   memory = new window.WebAssembly.Memory({ initial: 256, maximum: 256 });
-    // todo: figure out how to do counter with multiple executables
   gasCounter = 0;
   dynamicTopPtr = 1024;
-  constructor (env, contract) {
+  constructor (env, contract, log = () => {}) {
     env.memory = this.memory;
+    env._malloc = this.malloc;
+    env._free = this.free;
     env._storage_write = this.storageWrite;
     env._storage_read = this.storageRead;
+    env._create = this.create;
+    env._suicide = this.suicide;
+    env._ccall = this.ccall;
+    env._dcall = this.dcall;
     env._debug = this.debug;
+
+    this.log = log;
     this.contract = contract;
   }
 
@@ -21,6 +29,15 @@ export default class Runtime {
     }
     console.log('DEBUG', str);
   }
+
+  create = () => {}
+  suicide = () => {}
+  ccall = () => {}
+  dcall = () => {}
+  scall = () => {}
+  debug = () => {}
+  suicide = () => {}
+  gas = () => {}
 
   storageWrite = (keyPtr, valPtr) => {
     const key = readU8(keyPtr, this.memory.buffer, 32);

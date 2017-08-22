@@ -11,18 +11,10 @@ export default async function runContract (contract, args, log) {
   env.gas = runtime.gas;
   env._malloc = runtime.malloc;
   env._free = runtime.free;
-  env._debug = function (ptr, len) {
-    let arr = new Uint8Array(env.memory.buffer);
-    let str = '';
-
-    for (let i = 0; i < len; i++) {
-      str += String.fromCharCode(arr[ptr + i]);
-    }
-    log(`DEBUG: ${str}`);
-  };
   env.abort = () => {
     throw new Error('Abort');
   };
+
   window.WebAssembly
     .instantiate(code, imports)
     .then(module => {

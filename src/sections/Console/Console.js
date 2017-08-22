@@ -15,6 +15,14 @@ import ContractsStore from '../../common/ContractsStore';
 @observer
 export default class Console extends React.Component {
   store = this.context.store;
+  editor = null;
+
+  componentDidUpdate () {
+    if (!this.editor) {
+      return;
+    }
+    this.editor.gotoLine(this.store.logEntries.length + 1);
+  }
 
   static contextTypes = {
     store: PropTypes.instanceOf(ContractsStore)
@@ -25,6 +33,7 @@ export default class Console extends React.Component {
 
     return (
       <AceEditor
+        ref={ reactAce => { this.editor = reactAce && reactAce.editor; } }
         readOnly
         width='100%'
         height='100%'
@@ -34,7 +43,8 @@ export default class Console extends React.Component {
         showGutter={ false }
         showPrintMargin={ false }
         value={ this.store.logEntries.join('\n') }
-      />);
+      />
+    );
   }
 }
 
