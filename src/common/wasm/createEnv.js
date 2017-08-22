@@ -1,6 +1,6 @@
 export default function createEnv (imports = { }) {
   imports.env = imports.env || {};
-  const { env } = imports;
+  const env = imports.env;
 
   env.memoryBase = imports.env.memoryBase || 1024;
   env.tableBase = imports.env.tableBase || 0;

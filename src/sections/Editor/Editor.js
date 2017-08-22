@@ -18,6 +18,7 @@ function toWast (buffer) {
   const dis = new WasmDisassembler();
 
   reader.setData(buffer, 0, buffer.byteLength);
+  console.log(reader.result);
   dis.disassembleChunk(reader);
   const result = dis.getResult();
 

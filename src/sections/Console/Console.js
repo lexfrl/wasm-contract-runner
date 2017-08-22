@@ -38,10 +38,12 @@ export default class Console extends React.Component {
         width='100%'
         height='100%'
         mode='text'
+        scrollMargin
         theme='github'
         name='wast'
         showGutter={ false }
         showPrintMargin={ false }
+        editorProps={ { $blockScrolling: Infinity } }
         value={ this.store.logEntries.join('\n') }
       />
     );

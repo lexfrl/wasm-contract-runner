@@ -1,3 +1,5 @@
+import { bytesToHex, hexToBytes } from '../utils';
+
 export default class Runtime {
   log = () => {};
   storage = null;
@@ -13,6 +15,7 @@ export default class Runtime {
     env._create = this.create;
     env._suicide = this.suicide;
     env._ccall = this.ccall;
+    env._scall = this.scall;
     env._dcall = this.dcall;
     env._debug = this.debug;
 
@@ -27,22 +30,36 @@ export default class Runtime {
     for (let i = 0; i < len; i++) {
       str += String.fromCharCode(arr[ptr + i]);
     }
-    console.log('DEBUG', str);
+    this.log(`DEBUG: ${str}`);
   }
 
-  create = () => {}
-  suicide = () => {}
-  ccall = () => {}
-  dcall = () => {}
-  scall = () => {}
-  debug = () => {}
-  suicide = () => {}
-  gas = () => {}
+  create = () => {
+    this.log(`CREATE: `);
+  }
+  suicide = () => {
+    this.log(`SUICIDE: `);
+  }
+  ccall = () => {
+    this.log(`CCALL: `);
+  }
+  dcall = () => {
+    this.log(`DCALL: `);
+  }
+  scall = () => {
+    this.log(`SCALL: `);
+  }
+  suicide = () => {
+    this.log(`SUICIDE: `);
+  }
+  gas = () => {
+    this.log(`GAS: `);
+  }
 
   storageWrite = (keyPtr, valPtr) => {
     const key = readU8(keyPtr, this.memory.buffer, 32);
     const value = readU8(valPtr, this.memory.buffer, 32);
 
+    this.log(`STORAGE WRITE: 0x${bytesToHex(key)}: 0x${value ? bytesToHex(value) : ''}`);
     this.contract.storeSet(key, value);
     return 0;
   }
@@ -51,6 +68,7 @@ export default class Runtime {
     const key = readU8(keyPtr, this.memory.buffer, 32);
     const value = this.contract.storeGet(key);
 
+    this.log(`STORAGE READ: 0x${bytesToHex(key)}: 0x${bytesToHex(value) || ''}`);
     if (!value) {
       return -1;
     }
@@ -58,16 +76,16 @@ export default class Runtime {
     return 0;
   }
 
-  malloc (size) {
+  malloc = (size) => {
     let result = this.dynamicTopPtr;
 
     this.dynamicTopPtr += size;
     return result;
   }
 
-  free () {}
+  free = () => {}
   // TODO: inject gas counter
-  gas = function (val) {
+  gas = (val) => {
     this.gasCounter += val;
   };
 

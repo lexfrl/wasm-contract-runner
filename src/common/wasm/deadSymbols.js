@@ -1,7 +1,6 @@
 export default function deadSymbols (imports = {}) {
-  let { env } = imports;
-
-  env = env || {};
+  imports.env = imports.env || {};
+  const env = imports.env;
 
   // dead symbols in rust wasm32-unknown-emscripten target
   // todo: strip/raise issue in rust compiler
