@@ -5,5 +5,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './App';
+/* eslint-disable */
 
-ReactDOM.render(<App />, document.getElementById('root'));
+if (!window.WebAssembly) {
+  alert('Your browser doesn\'t support WebAssembly');
+  /* eslint-enable */
+} else {
+  ReactDOM.render(<App />, document.getElementById('root'));
+}
