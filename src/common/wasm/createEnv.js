@@ -21,12 +21,5 @@ export default function createEnv (imports = { }) {
 
   env.memoryBase = env.memoryBase || 0;
   env.tableBase = env.tableBase || 0;
-  if (!imports.env.table) {
-    imports.env.table = new window.WebAssembly.Table({
-      initial: 3,
-      maximum: 3,
-      element: 'anyfunc'
-    });
-  }
   return imports;
 }

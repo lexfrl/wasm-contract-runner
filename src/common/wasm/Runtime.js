@@ -18,9 +18,15 @@ export default class Runtime {
     env._scall = this.scall;
     env._dcall = this.dcall;
     env._debug = this.debug;
+    env.abort = this.abort;
+    env._llvm_bswap_i64 = this.llvm_bswap_i64;
 
     this.log = log;
     this.contract = contract;
+  }
+
+  setInstance (instance) {
+    this.instance = instance;
   }
 
   debug = (ptr, len) => {
@@ -31,65 +37,91 @@ export default class Runtime {
       str += String.fromCharCode(arr[ptr + i]);
     }
     this.log(`DEBUG: ${str}`);
-  }
+  };
 
   create = () => {
     this.log(`CREATE: `);
-  }
+  };
   suicide = () => {
     this.log(`SUICIDE: `);
-  }
+  };
   ccall = () => {
     this.log(`CCALL: `);
-  }
+  };
   dcall = () => {
     this.log(`DCALL: `);
-  }
+  };
   scall = () => {
     this.log(`SCALL: `);
-  }
+  };
   suicide = () => {
     this.log(`SUICIDE: `);
-  }
+  };
   gas = () => {
     this.log(`GAS: `);
-  }
+  };
+  abort = () => {
+    this.log(`ABORT: `);
+    throw new Error('Abort');
+  };
 
   storageWrite = (keyPtr, valPtr) => {
     const key = readU8(keyPtr, this.memory.buffer, 32);
     const value = readU8(valPtr, this.memory.buffer, 32);
 
-    this.log(`STORAGE WRITE: 0x${bytesToHex(key)}: 0x${value ? bytesToHex(value) : ''}`);
+    this.log(
+      `STORAGE WRITE: 0x${bytesToHex(key)}: 0x${value ? bytesToHex(value) : ''}`
+    );
     this.contract.storeSet(key, value);
     return 0;
-  }
+  };
 
   storageRead = (keyPtr, destPtr) => {
     const key = readU8(keyPtr, this.memory.buffer, 32);
     const value = this.contract.storeGet(key);
 
-    this.log(`STORAGE READ: 0x${bytesToHex(key)}: 0x${bytesToHex(value) || ''}`);
+    this.log(
+      `STORAGE READ: 0x${bytesToHex(key)}: 0x${bytesToHex(value) || ''}`
+    );
     if (!value) {
       return -1;
     }
     writeU8(destPtr, this.memory.buffer, value);
     return 0;
-  }
+  };
 
-  malloc = (size) => {
+  malloc = size => {
     let result = this.dynamicTopPtr;
 
     this.dynamicTopPtr += size;
     return result;
-  }
+  };
 
-  free = () => {}
+  free = () => {};
   // TODO: inject gas counter
-  gas = (val) => {
+  gas = val => {
     this.gasCounter += val;
   };
 
-  call (instance, args) {
+  /* eslint-disable */
+  llvm_bswap_i32 = x => {
+    return (
+      ((x & 0xff) << 24) |
+      (((x >> 8) & 0xff) << 16) |
+      (((x >> 16) & 0xff) << 8) |
+      (x >>> 24)
+    );
+  };
+
+  llvm_bswap_i64 = (l, h) => {
+    const hi = h >> 32;
+    const lo = l << 32 >> 32;
+    this.instance.exports.setTempRet0(hi);
+    return lo;
+  }
+  /* eslint-enable */
+
+  call (args) {
     // call descriptor size
     let ptr = this.malloc(16);
     let dataView = new DataView(this.memory.buffer);
@@ -109,12 +141,12 @@ export default class Runtime {
       dataView.setInt32(ptr + 4, 0, true);
     }
 
-        // zero result
+    // zero result
     dataView.setInt32(ptr + 8, 0, true);
     dataView.setInt32(ptr + 12, 0, true);
 
     this.gasCounter = 0;
-    instance.exports._call(ptr);
+    this.instance.exports._call(ptr);
 
     let resultPtr = dataView.getInt32(ptr + 8, true);
     let resultLength = dataView.getInt32(ptr + 12, true);
@@ -128,6 +160,7 @@ export default class Runtime {
         result.push(dataView.getUint8(resultPtr + i));
       }
     }
+    console.log(result);
 
     argPtr && this.free(argPtr);
     resultPtr && this.free(resultPtr);

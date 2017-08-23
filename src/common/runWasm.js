@@ -19,18 +19,12 @@ export default async function runContract (contract, args, log) {
     element: 'anyfunc'
   });
 
-  env.gas = runtime.gas;
-  env._malloc = runtime.malloc;
-  env._free = runtime.free;
-  env.abort = () => {
-    throw new Error('Abort');
-  };
-
   window.WebAssembly
     .instantiate(code, imports)
     .then(module => {
       log(`RUN: ${contract.name}`);
-      runtime.call(module.instance, args);
+      runtime.setInstance(module.instance);
+      runtime.call(args);
     })
     .catch(e => {
       log(`ERROR: ${e.message}`);
