@@ -114,8 +114,8 @@ export default class Runtime {
   };
 
   llvm_bswap_i64 = (l, h) => {
-    const hi = h >> 32;
-    const lo = l << 32 >> 32;
+    const hi = this.llvm_bswap_i32(l) >>> 0;
+    const lo = this.llvm_bswap_i32(h) >>> 0;
     this.instance.exports.setTempRet0(hi);
     return lo;
   }
