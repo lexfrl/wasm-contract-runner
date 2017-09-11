@@ -14,10 +14,16 @@ export default class Runtime {
     env._storage_read = this.storageRead;
     env._create = this.create;
     env._suicide = this.suicide;
+    env._coinbase = this.coinbase;
+    env._timestamp = this.timestamp;
+    env._blocknumber = this.blocknumber;
+    env._difficulty = this.difficulty;
+    env._gaslimit = this.gaslimit;
     env._ccall = this.ccall;
     env._scall = this.scall;
     env._dcall = this.dcall;
     env._debug = this.debug;
+    env._panic = this.panic;
     env.abort = this.abort;
     env._llvm_bswap_i64 = this.llvm_bswap_i64;
 
@@ -45,6 +51,18 @@ export default class Runtime {
   suicide = () => {
     this.log(`SUICIDE: `);
   };
+  coinbase = () => {
+    this.log(`COINBASE: `);
+  };
+  timestamp = () => {
+    this.log(`TIMESTAMP: `);
+  };
+  difficulty = () => {
+    this.log(`DIFFICULTY: `);
+  };
+  gaslimit = () => {
+    this.log(`GAS LIMIT: `);
+  };
   ccall = () => {
     this.log(`CCALL: `);
   };
@@ -60,9 +78,14 @@ export default class Runtime {
   gas = () => {
     this.log(`GAS: `);
   };
-  abort = () => {
+  abort = (...args) => {
+    console.log(args);
     this.log(`ABORT: `);
-    throw new Error('Abort');
+    // throw new Error('ABORT');
+  };
+  panic = () => {
+    this.log(`PANIC: `);
+    // throw new Error('PANIC');
   };
 
   storageWrite = (keyPtr, valPtr) => {
