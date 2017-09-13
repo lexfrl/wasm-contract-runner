@@ -81,7 +81,6 @@ export default class Runtime {
   abort = (...args) => {
     console.log(args);
     this.log(`ABORT: `);
-    // throw new Error('ABORT');
   };
   panic = () => {
     this.log(`PANIC: `);
