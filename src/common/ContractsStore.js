@@ -21,6 +21,7 @@ class ContractsStore {
   }
 
   @action log = (message) => {
+    console.log(message);
     this.logEntries.push(message);
   }
 

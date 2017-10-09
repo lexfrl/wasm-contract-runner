@@ -18,6 +18,7 @@ export default class Runtime {
     env._timestamp = this.timestamp;
     env._blocknumber = this.blocknumber;
     env._difficulty = this.difficulty;
+    env._gas = this.gas;
     env._gaslimit = this.gaslimit;
     env._ccall = this.ccall;
     env._scall = this.scall;
@@ -26,6 +27,9 @@ export default class Runtime {
     env._panic = this.panic;
     env.abort = this.abort;
     env._llvm_bswap_i64 = this.llvm_bswap_i64;
+    env._emscripten_memcpy_big = this._emscripten_memcpy_big;
+    env._memcpy = this._memcpy;
+    env._llvm_trap = this._llvm_trap;
 
     this.log = log;
     this.contract = contract;
@@ -34,7 +38,7 @@ export default class Runtime {
   setInstance (instance) {
     this.instance = instance;
   }
-
+  /* Contract externalities */
   debug = (ptr, len) => {
     let arr = new Uint8Array(this.memory.buffer);
     let str = '';
@@ -44,7 +48,6 @@ export default class Runtime {
     }
     this.log(`DEBUG: ${str}`);
   };
-
   create = () => {
     this.log(`CREATE: `);
   };
@@ -80,7 +83,7 @@ export default class Runtime {
   };
   abort = (...args) => {
     console.log(args);
-    this.log(`ABORT: `);
+    throw new Error('ABORT');
   };
   panic = () => {
     this.log(`PANIC: `);
@@ -112,6 +115,10 @@ export default class Runtime {
     return 0;
   };
 
+  /*
+    Runtime externalities
+  */
+
   malloc = size => {
     let result = this.dynamicTopPtr;
 
@@ -119,13 +126,29 @@ export default class Runtime {
     return result;
   };
 
-  free = () => {};
+  free = () => {
+    this.log(`free: `);
+  };
   // TODO: inject gas counter
   gas = val => {
     this.gasCounter += val;
   };
 
   /* eslint-disable */
+
+  _emscripten_memcpy_big = (dest, src, len) => {
+    let buf = new Uint8Array(this.memory.buffer);
+    let destination = new Uint8Array(this.memory.buffer).subarray(src, src + len);
+    buf.set(destination, dest);
+    return dest;
+  };
+
+  _llvm_trap = () => {
+    this.log(`_llvm_trap: `);
+    throw new Error('_llvm_trap: unreachable!');
+  }
+
+
   llvm_bswap_i32 = x => {
     return (
       ((x & 0xff) << 24) |

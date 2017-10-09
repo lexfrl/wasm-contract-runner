@@ -67,21 +67,26 @@ export default class Explorer extends React.Component {
 
   render () {
     return (
-      <div>
+      <div style={ { height: '100%' } }>
         <Dropzone
           onDrop={ accepted => this.uploadWasmFiles(accepted) }
           ref={ dropzoneRef => (this.dropzoneRef = dropzoneRef) }
-          style={ {} }
+          style={ { display: 'flex', flexDirection: 'column' } }
           disableClick
           disablePreview
         >
-          <Header as='h3'>Uploaded contracts</Header>
-          <Divider />
-          <Button onClick={ () => this.dropzoneRef.open() } fluid color='grey'>
-            <Icon name='plus' /> Upload WASM files
-          </Button>
-
-          {this.renderFiles()}
+          <div style={ { maxHeight: '100%', display: 'flex', flexDirection: 'column', overflowY: 'auto' }}>
+            <div style={ { flex: '1' } }>
+              <Header as='h3'>Uploaded contracts</Header>
+              <Divider />
+              <Button onClick={ () => this.dropzoneRef.open() } fluid color='grey'>
+                <Icon name='plus' /> Upload WASM files
+              </Button>
+            </div>
+            <div style={ { flex: '1 0 100%' } }>
+              {this.renderFiles()}
+            </div>
+          </div>
         </Dropzone>
       </div>
     );
