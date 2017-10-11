@@ -1,11 +1,11 @@
 import { bytesToHex, hexToBytes } from '../utils';
+import saver from 'file-saver';
 
 export default class Runtime {
   log = () => {};
   storage = null;
   memory = new window.WebAssembly.Memory({ initial: 256, maximum: 256 });
   gasCounter = 0;
-  dynamicTopPtr = 1024;
   constructor (env, contract, log = () => {}) {
     env.memory = this.memory;
     env._malloc = this.malloc;
@@ -30,6 +30,7 @@ export default class Runtime {
     env._emscripten_memcpy_big = this._emscripten_memcpy_big;
     env._memcpy = this._memcpy;
     env._llvm_trap = this._llvm_trap;
+    this.dynamicTopPtr = env.DYNAMICTOP_PTR;
 
     this.log = log;
     this.contract = contract;
@@ -121,6 +122,7 @@ export default class Runtime {
 
   malloc = size => {
     let result = this.dynamicTopPtr;
+    this.log(`malloc: ${result} + ${size}`);
 
     this.dynamicTopPtr += size;
     return result;
@@ -205,7 +207,6 @@ export default class Runtime {
         result.push(dataView.getUint8(resultPtr + i));
       }
     }
-    console.log(result);
 
     argPtr && this.free(argPtr);
     resultPtr && this.free(resultPtr);
